@@ -14,7 +14,6 @@ function action_welcome() {
 }
 
 function action_login() {
-  // POST: name, email, password
   if ($_SERVER['REQUEST_METHOD'] !== 'POST') return render('welcome');
 
   $name  = trim($_POST['name'] ?? '');
@@ -44,7 +43,7 @@ function action_login() {
     $_SESSION['user_email'] = $email;
   }
 
-  game_start(); // picks target, score=0, empty guesses
+  game_start();
   header('Location: ?command=play'); exit;
 }
 
@@ -63,7 +62,7 @@ function action_guess() {
   if ($_SERVER['REQUEST_METHOD'] !== 'POST') return header('Location: ?command=play');
 
   $guess = trim(strtolower($_POST['guess'] ?? ''));
-  $result = game_apply_guess($guess); // returns ['ok'=>bool,'msg'=>..., 'won'=>bool]
+  $result = game_apply_guess($guess);
   if ($result['won']) { header('Location: ?command=gameover'); exit; }
   $state = $_SESSION['game']; $state['flash'] = $result['msg'];
   render('game', $state);
@@ -76,7 +75,6 @@ function action_reshuffle() {
 }
 
 function action_quit() {
-  // (DB phase) record as lost; for now just end session
   session_destroy();
   header('Location: ?command=welcome'); exit;
 }
