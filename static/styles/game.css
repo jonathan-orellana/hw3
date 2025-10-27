@@ -1,0 +1,19 @@
+#game-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.letters span {
+  display: flex;
+  flex-direction: row;
+  border: none;
+  border-radius: 10px;
+  background: rgb(200, 200, 200);
+  color: white;
+  font-weight: 600;
+  padding: 16px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
