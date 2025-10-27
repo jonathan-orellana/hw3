@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 function db_connect() {
   $env = parse_ini_file(__DIR__ . '/../../.env');
 
@@ -15,13 +18,16 @@ function db_connect() {
     $host = $env['SERVER_HOST'];
     $db   = $env['SERVER_DB'];
     $user = $env['SERVER_USER'];
-    $pass = $env['SERVER_PASS'];
+    $pass = $env['SERVER_PASS']; 
   }
 
-  $conn = pg_connect("host=$host dbname=$db user=$user password=$pass");
+  $conn = pg_connect("host=$host port=5432 dbname=$db user=$user password='$pass' connect_timeout=5");
 
   if (!$conn) {
-    die('DB connection failed');
+    echo '<pre>';
+    echo 'DB connection failed: ' . pg_last_error();
+    echo '</pre>';
+    exit;
   }
 
   return $conn;
